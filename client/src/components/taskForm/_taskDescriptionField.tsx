@@ -17,6 +17,7 @@ const TaskDescriptionField: FC<ITextField> = (props): ReactElement => {
       fullWidth
       onChange={onChange}
       disabled={disabled}
+      value={props.value || ''}
     />
   );
 };
