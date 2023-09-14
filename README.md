@@ -92,7 +92,7 @@ It provides the fast start and easy to maintain CRUD API web service
 
 ### Unit tests
 
-For adding the unit tests I usually use the [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/)
+For adding the unit tests I usually use the [jest](https://jestjs.io) and  [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/)
 
 ### Authorization
 
