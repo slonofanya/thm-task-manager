@@ -90,6 +90,10 @@ It provides the fast start and easy to maintain CRUD API web service
 
 ## Additional features that could be added to this application
 
+### Unit tests
+
+For adding the unit tests I usually use the [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/)
+
 ### Authorization
 
 Can be implemented by [passportjs](https://www.passportjs.org/) package that has a grate approaches to include the OAuth or any other option for manage the users.
