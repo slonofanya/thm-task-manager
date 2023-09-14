@@ -78,6 +78,11 @@ In this application for client web app I used the [Next.js](https://nextjs.org/)
 - API Routes and proxy server
 - Automatic Code Reloading
 
+## Form management
+
+To manage the form state I use the [react-hook-form.com](https://react-hook-form.com). It is lightweight library to help a lot in implementing the forms.
+As option we could use the [Formik](https://formik.org)
+
 ## Server (API)
 
 For server I used the [express](https://expressjs.com/) and [typeorm](https://typeorm.io/)
