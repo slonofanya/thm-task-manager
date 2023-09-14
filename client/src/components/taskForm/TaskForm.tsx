@@ -40,7 +40,7 @@ const TaskForm: FC = (): ReactElement => {
   const taskUpdatedContext = useContext(TaskStatusChangedContext);
 
   const createTaskMutation = useMutation((data: ICreateTask) =>
-    sendApiRequest<ITaskApi>('http://localhost:3200/tasks', 'POST', data),
+    sendApiRequest<ITaskApi>('/api/tasks', 'POST', data),
   );
 
   const createTaskHandler = () => {

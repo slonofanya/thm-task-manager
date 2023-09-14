@@ -1,10 +1,11 @@
 "use client";
 
 import React, { FC, ReactElement } from 'react';
-import { ThemeProvider, CssBaseline } from '@mui/material';
+import { CssBaseline } from '@mui/material';
+import { ThemeProvider } from '@mui/material/styles';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { customTheme } from '@/theme/customTheme';
+import { theme } from '@/theme/theme';
 import Dashboard from '@/features/Dashboard'
 import ComposeContext from '@/context/Compose.context';
 import { rootContext } from '@/context/root.context';
@@ -16,7 +17,7 @@ const Home: FC = (): ReactElement => {
   return (
     <QueryClientProvider client={queryClient}>
       <ComposeContext components={rootContext}>
-        <ThemeProvider theme={customTheme}>
+        <ThemeProvider theme={theme}>
           <CssBaseline />
           <Dashboard />
         </ThemeProvider>

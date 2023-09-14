@@ -9,20 +9,25 @@ import TaskCounter from '../taskCounter/TaskCounter';
 import Task from '../task/Task';
 import { ITaskApi } from './interfaces/ITaskApi';
 import { IUpdateTask } from '../taskForm/interfaces/IUpdateTask';
+import { IDeleteTask } from '../taskForm/interfaces/IDeleteTask';
 import { Status } from '../taskForm/enums/Status';
 import { countTasks } from './helpers/countTasks';
 import { TaskStatusChangedContext } from '../../context';
 
 const ContentArea: FC = (): ReactElement => {
   const { error, isLoading, data, refetch } = useQuery(['tasks'], async () => {
-    return await sendApiRequest<ITaskApi[]>('http://localhost:3200/', 'GET');
+    return await sendApiRequest<ITaskApi[]>('/api', 'GET');
   });
 
   const taskUpdatedContext = useContext(TaskStatusChangedContext);
 
   // update inProgress task status
   const updateTaskMutation = useMutation((data: IUpdateTask) =>
-    sendApiRequest('http://localhost:3200/tasks', 'PUT', data),
+    sendApiRequest('/api/tasks', 'PUT', data),
+  );
+
+  const deleteTaskMutation = useMutation((data: IDeleteTask) =>
+    sendApiRequest('/api/tasks', 'DELETE', data),
   );
 
   useEffect(() => {
@@ -33,11 +38,15 @@ const ContentArea: FC = (): ReactElement => {
     if (updateTaskMutation.isSuccess) {
       taskUpdatedContext.toggle();
     }
-  }, [updateTaskMutation.isSuccess]);
+
+    if (deleteTaskMutation.isSuccess) {
+      taskUpdatedContext.toggle();
+    }
+  }, [updateTaskMutation.isSuccess, deleteTaskMutation.isSuccess]);
 
   const onStatusChangeHandler = (
     e: React.ChangeEvent<HTMLInputElement>,
-    id: string,
+    id: string
   ) => {
     updateTaskMutation.mutate({
       id,
@@ -49,9 +58,16 @@ const ContentArea: FC = (): ReactElement => {
     _e:
       | React.MouseEvent<HTMLButtonElement>
       | React.MouseEvent<HTMLAnchorElement>,
-    id: string,
-  ) => {
+    id: string) => {
     updateTaskMutation.mutate({ id, status: Status.completed });
+  };
+
+  const deleteTaskHandler = (
+    _e:
+      | React.MouseEvent<HTMLButtonElement>
+      | React.MouseEvent<HTMLAnchorElement>,
+    id: string) => {
+    deleteTaskMutation.mutate({ id });
   };
 
   return (
@@ -117,6 +133,7 @@ const ContentArea: FC = (): ReactElement => {
                   priority={task.priority}
                   onStatusChange={onStatusChangeHandler}
                   onClick={markCompleteHandler}
+                  onDelete={deleteTaskHandler}
                 />
               );
             })

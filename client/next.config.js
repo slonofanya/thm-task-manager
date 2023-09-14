@@ -1,12 +1,9 @@
 /** @type {import('next').NextConfig} */
 
-const apiHost = process.env.API_HOST || ''
+const apiHost = process.env.API_URL || 'http://localhost:8080'
 
 const nextConfig = {
   reactStrictMode: true,
-  compiler: {
-    styledComponents: true,
-  },
   async rewrites() {
     return [
       {
@@ -14,14 +11,7 @@ const nextConfig = {
         destination: `${apiHost}/:path*`,
       },
     ]
-  },
-  typescript: {
-    // !! WARN !!
-    // Dangerously allow production builds to successfully complete even if
-    // your project has type errors.
-    // !! WARN !!
-    ignoreBuildErrors: true,
-  },
+  }
 }
 
 module.exports = nextConfig

@@ -7,7 +7,7 @@ import { AppDataSource } from '../../server';
 import { instanceToPlain, plainToInstance } from 'class-transformer';
 
 class TaskController {
-  public async getAll(req: Request, res: Response): Promise<Response> {
+  public async getAll(_req: Request, res: Response): Promise<Response> {
     let allTasks: Task[];
 
     try {
@@ -22,6 +22,7 @@ class TaskController {
 
       return res.status(200).json(allTasks);
     } catch (err) {
+      console.error(err);
       return res.status(500).json({ err: 'internal server error' });
     }
   }
@@ -51,6 +52,7 @@ class TaskController {
 
       return res.status(201).json(createdTask);
     } catch (err) {
+      console.error(err);
       return res.status(500).json({ err: 'internal server error' });
     }
   }
@@ -60,23 +62,6 @@ class TaskController {
 
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
-    }
-
-    let task: Task | null;
-
-    try {
-      task = await AppDataSource.getRepository(Task).findOne({
-        where: { id: req.body.id },
-      });
-    } catch (err) {
-      return res.status(500).json({ err: 'internal server error' });
-    }
-
-    // Return 400 if task is null
-    if (!task) {
-      return res.status(404).json({
-        error: 'The task with given ID does not exist',
-      });
     }
 
     // Declare a variable for updatedTask
@@ -96,6 +81,25 @@ class TaskController {
 
       return res.json(updatedTask).status(200);
     } catch (errors) {
+      console.error(errors);
+      return res.json({ error: 'Internal Server Error' }).status(500);
+    }
+  }
+
+  public async deleteTask(req: Request, res: Response): Promise<Response> {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    // Delete the task
+    try {
+      await AppDataSource.getRepository(Task).delete(req.body.id);
+
+      return res.json(null).status(200);
+    } catch (errors) {
+      console.error(errors);
       return res.json({ error: 'Internal Server Error' }).status(500);
     }
   }

@@ -18,6 +18,7 @@ const Task: FC<ITask> = (props): ReactElement => {
     status = Status.completed,
     onStatusChange = (e) => console.log(e),
     onClick = (e) => console.log(e),
+    onDelete = (e) => console.log(e),
   } = props;
 
   return (
@@ -36,8 +37,15 @@ const Task: FC<ITask> = (props): ReactElement => {
         borderColor: emitBorderColor(priority),
       }}
     >
-      <TaskHeader title={title} date={date} />
+      <TaskHeader
+        title={title}
+        date={date}
+        id={id}
+        onDelete={onDelete}
+      />
+
       <TaskDescription description={description} />
+
       <TaskFooter
         onStatusChange={onStatusChange}
         onClick={onClick}

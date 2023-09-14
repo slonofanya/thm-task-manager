@@ -1,10 +1,10 @@
 import React, { FC, ReactElement } from 'react';
-import { Box, Chip, Typography } from '@mui/material';
+import { Box, Button, Chip, Typography } from '@mui/material';
 import { format } from 'date-fns';
 import { ITaskHeader } from './interfaces/ITaskHeader';
 
 const TaskHeader: FC<ITaskHeader> = (props): ReactElement => {
-  const { title = 'Default Title', date = new Date() } = props;
+  const { id, title = 'Default Title', date = new Date(), onDelete } = props;
   return (
     <Box display="flex" width="100%" justifyContent="space-between" mb={3}>
       <Box>
@@ -12,6 +12,17 @@ const TaskHeader: FC<ITaskHeader> = (props): ReactElement => {
       </Box>
       <Box>
         <Chip variant="outlined" label={format(date, 'PPP')} />
+      </Box>
+      <Box>
+        <Button
+          variant="contained"
+          color="error"
+          size="small"
+          sx={{ color: 'white' }}
+          onClick={(e) => onDelete(e, id)}
+        >
+          Delete
+        </Button>
       </Box>
     </Box>
   );
